@@ -42,9 +42,14 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void assignPermission(String roleId, String permissionId) {
         Role r = findById(roleId);
-        if (r != null && !r.getPermissionIds().contains(permissionId)) {
-            r.getPermissionIds().add(permissionId);
-            roleRepository.save(r);
+        if (r != null) {
+            if (r.getPermissionIds() == null) {
+                r.setPermissionIds(new java.util.ArrayList<>());
+            }
+            if (!r.getPermissionIds().contains(permissionId)) {
+                r.getPermissionIds().add(permissionId);
+                roleRepository.save(r);
+            }
         }
     }
 
